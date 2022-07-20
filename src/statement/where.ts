@@ -7,7 +7,10 @@ const whereCondition = () => or(
     expressionMatcher(),
 )
 export const where = () => def("where")(
-    "where", list([cap("where-condition", whereCondition())], or("AND", "OR"))
+    "where", list(
+        cap("where-condition", whereCondition()),
+        or("AND", "OR")
+    )
 )
 
 export const whereKeywords = [
