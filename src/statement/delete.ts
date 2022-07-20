@@ -1,6 +1,6 @@
 import { opt, toMatcher } from "mirabow"
+import { where } from "./select"
 import { TableName } from "./util"
-import { where } from "./where"
 
 export const deleteMatcher = () => toMatcher(
     "delete", "from", TableName(),

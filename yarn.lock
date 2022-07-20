@@ -1825,13 +1825,10 @@ minimist@^1.2.6:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
 
-mirabow@^0.0.14:
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/mirabow/-/mirabow-0.0.14.tgz#a530836b65150c660beca2181dbdc51e539a9013"
-  integrity sha512-mUgem2Q905c9AikbKja0AgzvBISCNIlLiDZn8Tux5Bju7lWbAV1QkVzFJExef3ZDbvaBqQvLYNhEnqAKc9IWMw==
-  dependencies:
-    "@types/node" "^18.0.6"
-    typescript "^4.7.4"
+mirabow@0.0.22:
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/mirabow/-/mirabow-0.0.22.tgz#146694c74851666f54cdba4234427395ce38b386"
+  integrity sha512-KI4kDHsOScJxqMdRNnah8axvEe+QJQoFEuh7MKhNcdEPytYd33szfFHwYWjSwB5E1+gaShwL0aXsqVbsjjeTjw==
 
 mkdirp@^1.0.4:
   version "1.0.4"

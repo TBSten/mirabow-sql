@@ -31,7 +31,7 @@ const addMatcher = () => {
 }
 const compareMatcher = () => {
     const matcher = or(
-        [list([addMatcher()], or("=", "!=", "<>", ">", "<"))],
+        [list([addMatcher()], or("=", "!=", "<>", ">", "<", ">=", "<="))],
     )
     return matcher
 }
