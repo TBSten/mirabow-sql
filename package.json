@@ -1,5 +1,5 @@
 {
-  "name": "@mirabow/sql",
+  "name": "mirabow-sql",
   "version": "0.0.1",
   "description": "mirabow extension for sql",
   "keywords": [
