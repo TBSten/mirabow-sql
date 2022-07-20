@@ -1,0 +1,45 @@
+{
+  "name": "@mirabow/sql",
+  "version": "0.0.1",
+  "description": "mirabow extension for sql",
+  "keywords": [
+    "parser",
+    "generator",
+    "mirabow",
+    "sql"
+  ],
+  "author": "tbsten",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TBSten/mirabow-sql.git"
+  },
+  "homepage": "https://github.com/TBSten/mirabow-sql",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "files": [
+    "dist/cjs/*",
+    "dist/esm/*"
+  ],
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js",
+      "types": "./index.d.ts"
+    }
+  },
+  "dependencies": {
+    "@types/node": "^18.0.6",
+    "mirabow": "^0.0.13",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.7.4"
+  },
+  "scripts": {
+    "build": "npm run build:cjs && npm run build:esm",
+    "build:cjs": "tsc --p tsconfig.cjs.json",
+    "build:esm": "tsc --p tsconfig.esm.json",
+    "prepack": "npm run build"
+  }
+}
