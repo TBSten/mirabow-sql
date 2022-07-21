@@ -4,10 +4,10 @@ import { where } from "./select";
 import { ColumnName, TableName } from "./util";
 
 export const updateMatcher = () => toMatcher(
-    "update", capture("update-update", ColumnName()),
+    "update", capture("update-update", TableName()),
     "set",
     list(
-        capture("update-set", [TableName(), "=", expressionMatcher()]),
+        capture("update-set", [ColumnName(), "=", expressionMatcher()]),
         ","
     ),
     opt(where())
