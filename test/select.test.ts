@@ -1,25 +1,9 @@
 import { execute, Tokens } from "mirabow"
 import { selectMatcher } from "../src"
+import { lines } from "./util"
 
 
 const matcher = selectMatcher()
-const lines = (...lines: string[]) => lines.join(" ")
-
-describe("", () => { })
-
-// test("select-basic", () => {
-//     const data = lines(
-//         "select col1",
-//         "from tbl1",
-//     )
-//     const out = execute(matcher, data)
-//     expect(out.isOk)
-//         .toBe(true)
-//     expect(out.capture["select-select"])
-//         .toEqual([["col1"],])
-//     expect(out.capture["select-from"])
-//         .toEqual([["tbl1"],])
-// })
 
 test.each<[string, Record<string, Tokens[]>]>([
     //select,from句
@@ -212,7 +196,6 @@ test.each<[string, Record<string, Tokens[]>]>([
     expect(out.isOk)
         .toBe(true)
     Object.entries(captures).forEach(([capName, capExpect]) => {
-        console.log(out);
         expect(out.capture[capName])
             .toEqual(capExpect)
     })
