@@ -1,4 +1,4 @@
-import { any, capture, list, or, repeat, toMatcher } from "mirabow";
+import { any, cap, li, or, repeat, toMatcher } from "mirabow";
 import { expressionMatcher } from "../expression";
 import { ColumnName, Identifier, TableName } from "./util";
 
@@ -58,32 +58,42 @@ const ColConstraint = () => toMatcher(or(
     ["default", expressionMatcher()],
     ["references", TableName(), "(", ColumnName(), ")"]
 ))
-export const ColumnDefinition = (captureName: string) => toMatcher([
-    capture(captureName, Identifier()),
+export const ColumnDefinition = (capName: string) => toMatcher([
+    cap(capName, Identifier()),
     ColType(),
     repeat(ColConstraint()),
 ])
 //table definition
 
 const TableConstraint = () => or(
-    ["primary", "key", "(", list(Identifier(), ","), ")"],
-    ["unique", "(", list(Identifier(), ","), ")"],
+    ["primary", "key", "(", li(Identifier(), ","), ")"],
+    ["unique", "(", li(Identifier(), ","), ")"],
     ["check", "(", expressionMatcher(), ")"],
     [
         "foreign", "key",
-        "(", list(ColumnName(), ","), ")",
-        "references", TableName(), "(", list(ColumnName(), ","), ")"
+        "(", li(ColumnName(), ","), ")",
+        "references", TableName(), "(", li(ColumnName(), ","), ")"
     ]
 )
 export const TableDefinition = () => toMatcher(TableConstraint());
 
 //create table
 
+export const createTableKey = {
+    table: "create-table-table",
+    def: {
+        column: "create-table-col-def",
+        table: "create-table-table-def",
+    },
+    column: "create-table-col",
+}
+const keys = createTableKey
+
 export const createTableMatcher = () => toMatcher(
-    "create", "table", capture("create-table-table", TableName()), "(",
-    list(or(
-        capture("create-table-col-def", ColumnDefinition("create-table-col")),
-        capture("create-table-table-def", TableDefinition()),
+    "create", "table", cap(keys.table, TableName()), "(",
+    li(or(
+        cap(keys.def.column, ColumnDefinition(keys.column)),
+        cap(keys.def.table, TableDefinition()),
     ), ","),
     ")",
 )

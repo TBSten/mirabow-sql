@@ -1,15 +1,36 @@
-import { capture, opt, or, toMatcher } from "mirabow";
+import { cap, opt, or, toMatcher } from "mirabow";
 import { ColumnDefinition } from "./createTable";
 import { ColumnName, TableName } from "./util";
 
+export const alterTableKey = {
+    table: "alter-table-table",
+    rename: {
+        table: "alter-table-rename-table",
+        column: {
+            before: "alter-table-rename-column-before",
+            after: "alter-table-rename-column-after",
+        },
+    },
+    add: {
+        column: {
+            name: "alter-table-add-column",
+            def: "alter-table-add-column-def",
+        }
+    },
+    drop: {
+        column: "alter-table-drop-column",
+    },
+}
+const keys = alterTableKey
+
 export const alterTableMatcher = () => toMatcher(
-    "alter", "table", capture("alter-table-table", TableName()),
+    "alter", "table", cap(alterTableKey.table, TableName()),
     or(
-        ["rename", "to", capture("alter-table-rename-table", TableName())],
-        ["rename", opt("column"), capture("alter-table-rename-column-before", ColumnName()),
-            "to", capture("alter-table-rename-column-after", ColumnName())],
-        ["add", opt("column"), capture("alter-table-add-column-def", ColumnDefinition("alter-table-add-column"))],
-        ["drop", opt("column"), capture("alter-table-drop-column", ColumnName())],
+        ["rename", "to", cap(alterTableKey.rename.table, TableName())],
+        ["rename", opt("column"), cap(keys.rename.column.before, ColumnName()),
+            "to", cap(keys.rename.column.after, ColumnName())],
+        ["add", opt("column"), cap(keys.add.column.def, ColumnDefinition(keys.add.column.name))],
+        ["drop", opt("column"), cap(keys.drop.column, ColumnName())],
     ),
 )
 

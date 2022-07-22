@@ -1,13 +1,19 @@
-import { capture, list, opt, toMatcher } from "mirabow";
+import { cap, li, opt, toMatcher } from "mirabow";
 import { expressionMatcher } from "../expression";
 import { where } from "./select";
 import { ColumnName, TableName } from "./util";
 
+export const updateKey = {
+    update: "update-update",
+    set: "update-set",
+}
+const keys = updateKey
+
 export const updateMatcher = () => toMatcher(
-    "update", capture("update-update", TableName()),
+    "update", cap(keys.update, TableName()),
     "set",
-    list(
-        capture("update-set", [ColumnName(), "=", expressionMatcher()]),
+    li(
+        cap(keys.set, [ColumnName(), "=", expressionMatcher()]),
         ","
     ),
     opt(where())
