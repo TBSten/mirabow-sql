@@ -1,5 +1,5 @@
 import { execute, Tokens } from "mirabow";
-import { deleteMatcher } from "../src";
+import { deleteKey, deleteMatcher } from "../src";
 import { lines } from "./util";
 
 const matcher = deleteMatcher()
@@ -12,7 +12,7 @@ test.each<[string, Record<string, Tokens[]>]>([
             "where id = 1",
         ),
         {
-            "delete-from": [["tbl1"]],
+            [deleteKey.from]: [["tbl1"]],
             "where-condition": [["id", "=", "1"]],
         },
     ],
@@ -21,7 +21,7 @@ test.each<[string, Record<string, Tokens[]>]>([
             "delete from tbl1",
         ),
         {
-            "delete-from": [["tbl1"]],
+            [deleteKey.from]: [["tbl1"]],
         },
     ],
 ])("correct delete : %p", (sql, captures) => {

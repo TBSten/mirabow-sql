@@ -1,5 +1,5 @@
 import { execute, Tokens } from "mirabow"
-import { selectMatcher } from "../src"
+import { selectKey, selectMatcher } from "../src"
 import { lines } from "./util"
 
 
@@ -10,16 +10,16 @@ test.each<[string, Record<string, Tokens[]>]>([
     [
         "select col1 from tbl1",
         {
-            "select-select": [["col1"]],
-            "select-from": [["tbl1"]],
+            [selectKey.select]: [["col1"]],
+            [selectKey.from]: [["tbl1"]],
         }
     ],
     //複数列・表
     [
         "select col1,col2 from tbl1,tbl2",
         {
-            "select-select": [["col1"], ["col2"]],
-            "select-from": [["tbl1"], ["tbl2"]],
+            [selectKey.select]: [["col1"], ["col2"]],
+            [selectKey.from]: [["tbl1"], ["tbl2"]],
         }
     ],
     //where句
@@ -29,8 +29,8 @@ test.each<[string, Record<string, Tokens[]>]>([
             "where col1=col2",
         ),
         {
-            "select-select": [["*"]],
-            "select-from": [["tbl1"]]
+            [selectKey.select]: [["*"]],
+            [selectKey.from]: [["tbl1"]]
         }
     ],
     //where句 複数条件
@@ -40,8 +40,8 @@ test.each<[string, Record<string, Tokens[]>]>([
             "where col1 = col2 and col3 >= col4",
         ),
         {
-            "select-select": [["*"]],
-            "select-from": [["tbl1"]],
+            [selectKey.select]: [["*"]],
+            [selectKey.from]: [["tbl1"]],
             "where-condition": [["col1", "=", "col2"], ["col3", ">=", "col4"]],
         }
     ],
@@ -54,8 +54,8 @@ test.each<[string, Record<string, Tokens[]>]>([
             "or col9 > col10 and col11 < col12",
         ),
         {
-            "select-select": [["*"]],
-            "select-from": [["tbl1"]],
+            [selectKey.select]: [["*"]],
+            [selectKey.from]: [["tbl1"]],
             "where-condition": [
                 ["col1", "=", "col2"], ["col3", "!=", "col4"],
                 ["col5", ">=", "col6"], ["col7", "<=", "col8"],
@@ -70,9 +70,9 @@ test.each<[string, Record<string, Tokens[]>]>([
             "group by col1",
         ),
         {
-            "select-select": [["col1"]],
-            "select-from": [["tbl1"]],
-            "select-group-by": [["col1"]],
+            [selectKey.select]: [["col1"]],
+            [selectKey.from]: [["tbl1"]],
+            [selectKey.groupBy]: [["col1"]],
         }
     ],
     //group by句 複数
@@ -82,9 +82,9 @@ test.each<[string, Record<string, Tokens[]>]>([
             "group by col1,col2,col3,col4",
         ),
         {
-            "select-select": [["col1"], ["col2"], ["col3"]],
-            "select-from": [["tbl1"]],
-            "select-group-by": [["col1"], ["col2"], ["col3"], ["col4"]],
+            [selectKey.select]: [["col1"], ["col2"], ["col3"]],
+            [selectKey.from]: [["tbl1"]],
+            [selectKey.groupBy]: [["col1"], ["col2"], ["col3"], ["col4"]],
         }
     ],
     //order by句
@@ -94,9 +94,9 @@ test.each<[string, Record<string, Tokens[]>]>([
             "order by col1",
         ),
         {
-            "select-select": [["col1"], ["col2"]],
-            "select-from": [["tbl1"]],
-            "select-order-by": [["col1"]],
+            [selectKey.select]: [["col1"], ["col2"]],
+            [selectKey.from]: [["tbl1"]],
+            [selectKey.orderBy]: [["col1"]],
         },
     ],
     //order by句 asc,desc
@@ -106,9 +106,9 @@ test.each<[string, Record<string, Tokens[]>]>([
             "order by col1 asc",
         ),
         {
-            "select-select": [["col1"], ["col2"]],
-            "select-from": [["tbl1"]],
-            "select-order-by": [["col1", "asc"]],
+            [selectKey.select]: [["col1"], ["col2"]],
+            [selectKey.from]: [["tbl1"]],
+            [selectKey.orderBy]: [["col1", "asc"]],
         },
     ],
     [
@@ -117,9 +117,9 @@ test.each<[string, Record<string, Tokens[]>]>([
             "order by col1 desc",
         ),
         {
-            "select-select": [["col1"], ["col2"]],
-            "select-from": [["tbl1"]],
-            "select-order-by": [["col1", "desc"]],
+            [selectKey.select]: [["col1"], ["col2"]],
+            [selectKey.from]: [["tbl1"]],
+            [selectKey.orderBy]: [["col1", "desc"]],
         },
     ],
     //order by句 複数
@@ -129,9 +129,9 @@ test.each<[string, Record<string, Tokens[]>]>([
             "order by col1 , col2",
         ),
         {
-            "select-select": [["col1"], ["col2"]],
-            "select-from": [["tbl1"]],
-            "select-order-by": [["col1"], ["col2"]],
+            [selectKey.select]: [["col1"], ["col2"]],
+            [selectKey.from]: [["tbl1"]],
+            [selectKey.orderBy]: [["col1"], ["col2"]],
         },
     ],
     [
@@ -140,9 +140,9 @@ test.each<[string, Record<string, Tokens[]>]>([
             "order by col1 asc , col2",
         ),
         {
-            "select-select": [["col1"], ["col2"]],
-            "select-from": [["tbl1"]],
-            "select-order-by": [["col1", "asc"], ["col2"]],
+            [selectKey.select]: [["col1"], ["col2"]],
+            [selectKey.from]: [["tbl1"]],
+            [selectKey.orderBy]: [["col1", "asc"], ["col2"]],
         },
     ],
     [
@@ -151,9 +151,9 @@ test.each<[string, Record<string, Tokens[]>]>([
             "order by col1 , col2 desc",
         ),
         {
-            "select-select": [["col1"], ["col2"]],
-            "select-from": [["tbl1"]],
-            "select-order-by": [["col1"], ["col2", "desc"]],
+            [selectKey.select]: [["col1"], ["col2"]],
+            [selectKey.from]: [["tbl1"]],
+            [selectKey.orderBy]: [["col1"], ["col2", "desc"]],
         },
     ],
     [
@@ -162,9 +162,9 @@ test.each<[string, Record<string, Tokens[]>]>([
             "order by col1 asc, col2 desc",
         ),
         {
-            "select-select": [["col1"], ["col2"]],
-            "select-from": [["tbl1"]],
-            "select-order-by": [["col1", "asc"], ["col2", "desc"]],
+            [selectKey.select]: [["col1"], ["col2"]],
+            [selectKey.from]: [["tbl1"]],
+            [selectKey.orderBy]: [["col1", "asc"], ["col2", "desc"]],
         },
     ],
     //limit句
@@ -174,9 +174,9 @@ test.each<[string, Record<string, Tokens[]>]>([
             "limit 10",
         ),
         {
-            "select-select": [["col1"], ["col2"]],
-            "select-from": [["tbl1"]],
-            "select-limit": [["10"]],
+            [selectKey.select]: [["col1"], ["col2"]],
+            [selectKey.from]: [["tbl1"]],
+            [selectKey.limit]: [["10"]],
         },
     ],
     //offset句
@@ -186,9 +186,9 @@ test.each<[string, Record<string, Tokens[]>]>([
             "offset 5",
         ),
         {
-            "select-select": [["col1"], ["col2"]],
-            "select-from": [["tbl1"]],
-            "select-offset": [["5"]],
+            [selectKey.select]: [["col1"], ["col2"]],
+            [selectKey.from]: [["tbl1"]],
+            [selectKey.offset]: [["5"]],
         },
     ],
 ])("correct select : %p", (sql, captures) => {

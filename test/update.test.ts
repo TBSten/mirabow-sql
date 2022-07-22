@@ -1,5 +1,5 @@
 import { execute, Tokens } from "mirabow";
-import { updateMatcher } from "../src";
+import { updateKey, updateMatcher } from "../src";
 import { lines } from "./util";
 
 const matcher = updateMatcher()
@@ -13,8 +13,8 @@ test.each<[string, Record<string, Tokens[]>]>([
             "where id = 1"
         ),
         {
-            "update-update": [["tbl1"]],
-            "update-set": [["name", "=", "'abc'"]],
+            [updateKey.update]: [["tbl1"]],
+            [updateKey.set]: [["name", "=", "'abc'"]],
             "where-condition": [["id", "=", "1"]],
         },
     ],
@@ -28,8 +28,8 @@ test.each<[string, Record<string, Tokens[]>]>([
             "where id = 1",
         ),
         {
-            "update-update": [["tbl1"]],
-            "update-set": [["name", "=", "'abc'"], ["old", "=", "old", "+", "1"],],
+            [updateKey.update]: [["tbl1"]],
+            [updateKey.set]: [["name", "=", "'abc'"], ["old", "=", "old", "+", "1"],],
             "where-condition": [["id", "=", "1"]],
         },
     ],

@@ -1,5 +1,5 @@
 import { execute, Tokens } from "mirabow";
-import { alterTableMatcher } from "../src";
+import { alterTableKey, alterTableMatcher } from "../src";
 import { lines } from "./util";
 
 const matcher = alterTableMatcher()
@@ -12,8 +12,8 @@ test.each<[string, Record<string, Tokens[]>]>([
             "rename to tbl2",
         ),
         {
-            "alter-table-table": [["tbl1"]],
-            "alter-table-rename-table": [["tbl2"]],
+            [alterTableKey.table]: [["tbl1"]],
+            [alterTableKey.rename.table]: [["tbl2"]],
         },
     ],
     //alter table rename column
@@ -23,9 +23,9 @@ test.each<[string, Record<string, Tokens[]>]>([
             "rename column col1 to col2",
         ),
         {
-            "alter-table-table": [["tbl1"]],
-            "alter-table-rename-column-before": [["col1"]],
-            "alter-table-rename-column-after": [["col2"]],
+            [alterTableKey.table]: [["tbl1"]],
+            [alterTableKey.rename.column.before]: [["col1"]],
+            [alterTableKey.rename.column.after]: [["col2"]],
         },
     ],
     [
@@ -34,9 +34,9 @@ test.each<[string, Record<string, Tokens[]>]>([
             "rename col1 to col2",
         ),
         {
-            "alter-table-table": [["tbl1"]],
-            "alter-table-rename-column-before": [["col1"]],
-            "alter-table-rename-column-after": [["col2"]],
+            [alterTableKey.table]: [["tbl1"]],
+            [alterTableKey.rename.column.before]: [["col1"]],
+            [alterTableKey.rename.column.after]: [["col2"]],
         },
     ],
     //alter table add column
@@ -46,9 +46,9 @@ test.each<[string, Record<string, Tokens[]>]>([
             "add column col1 integer",
         ),
         {
-            "alter-table-table": [["tbl1"]],
-            "alter-table-add-column": [["col1"]],
-            "alter-table-add-column-def": [["col1", "integer"]],
+            [alterTableKey.table]: [["tbl1"]],
+            [alterTableKey.add.column.name]: [["col1"]],
+            [alterTableKey.add.column.def]: [["col1", "integer"]],
         },
     ],
     [
@@ -57,9 +57,9 @@ test.each<[string, Record<string, Tokens[]>]>([
             "add col1 integer",
         ),
         {
-            "alter-table-table": [["tbl1"]],
-            "alter-table-add-column": [["col1"]],
-            "alter-table-add-column-def": [["col1", "integer"]],
+            [alterTableKey.table]: [["tbl1"]],
+            [alterTableKey.add.column.name]: [["col1"]],
+            [alterTableKey.add.column.def]: [["col1", "integer"]],
         },
     ],
     //alter table drop column
@@ -69,8 +69,8 @@ test.each<[string, Record<string, Tokens[]>]>([
             "drop column col1",
         ),
         {
-            "alter-table-table": [["tbl1"]],
-            "alter-table-drop-column": [["col1"]],
+            [alterTableKey.table]: [["tbl1"]],
+            [alterTableKey.drop.column]: [["col1"]],
         },
     ],
     [
@@ -79,8 +79,8 @@ test.each<[string, Record<string, Tokens[]>]>([
             "drop col1",
         ),
         {
-            "alter-table-table": [["tbl1"]],
-            "alter-table-drop-column": [["col1"]],
+            [alterTableKey.table]: [["tbl1"]],
+            [alterTableKey.drop.column]: [["col1"]],
         },
     ],
 ])("correct create table : %p", (sql, captures) => {

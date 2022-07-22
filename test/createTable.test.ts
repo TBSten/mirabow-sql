@@ -1,5 +1,5 @@
 import { execute, Tokens } from "mirabow";
-import { createTableMatcher } from "../src";
+import { createTableKey, createTableMatcher } from "../src";
 import { lines } from "./util";
 
 const matcher = createTableMatcher()
@@ -15,13 +15,13 @@ test.each<[string, Record<string, Tokens[]>]>([
             ")",
         ),
         {
-            "create-table-table": [["tbl1"]],
-            "create-table-col-def": [
+            [createTableKey.table]: [["tbl1"]],
+            [createTableKey.def.column]: [
                 ["col1", "integer", "primary", "key"],
                 ["col2", "text"],
                 ["col3", "float"],
             ],
-            "create-table-col": [["col1"], ["col2"], ["col3"]],
+            [createTableKey.column]: [["col1"], ["col2"], ["col3"]],
         },
     ],
     //table constraint
@@ -35,13 +35,13 @@ test.each<[string, Record<string, Tokens[]>]>([
             ")",
         ),
         {
-            "create-table-table": [["tbl1"]],
-            "create-table-col-def": [
+            [createTableKey.table]: [["tbl1"]],
+            [createTableKey.def.column]: [
                 ["col1", "integer"],
                 ["col2", "text"],
                 ["col3", "float"],
             ],
-            "create-table-col": [["col1"], ["col2"], ["col3"]],
+            [createTableKey.column]: [["col1"], ["col2"], ["col3"]],
             "create-table-table-def": [["primary", "key", "(", "col1", ")"]],
         },
     ],
@@ -58,8 +58,8 @@ test.each<[string, Record<string, Tokens[]>]>([
             ")",
         ),
         {
-            "create-table-table": [["tbl1"]],
-            "create-table-col-def": [
+            [createTableKey.table]: [["tbl1"]],
+            [createTableKey.def.column]: [
                 ["col1", "integer", "primary", "key"],
                 ["col2", "integer", "unique"],
                 ["col3", "integer", "not", "null"],
@@ -67,7 +67,7 @@ test.each<[string, Record<string, Tokens[]>]>([
                 ["col5", "integer", "default", "10"],
                 ["col6", "integer", "references", "tbl2", "(", "colA", ")"],
             ],
-            "create-table-col": [["col1"], ["col2"], ["col3"], ["col4"], ["col5"], ["col6"],],
+            [createTableKey.column]: [["col1"], ["col2"], ["col3"], ["col4"], ["col5"], ["col6"],],
         },
     ],
 ])("correct create table : %p", (sql, captures) => {

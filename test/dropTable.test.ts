@@ -1,5 +1,5 @@
 import { execute, Tokens } from "mirabow";
-import { dropTableMatcher } from "../src";
+import { dropTableKey, dropTableMatcher } from "../src";
 import { lines } from "./util";
 
 const matcher = dropTableMatcher()
@@ -11,7 +11,7 @@ test.each<[string, Record<string, Tokens[]>]>([
             "drop table tbl1",
         ),
         {
-            "drop-table-table": [["tbl1"]],
+            [dropTableKey.table]: [["tbl1"]],
         },
     ],
 ])("correct drop table : %p", (sql, captures) => {

@@ -1,5 +1,5 @@
 import { execute, Tokens } from "mirabow";
-import { insertMatcher } from "../src";
+import { insertKey, insertMatcher, selectKey } from "../src";
 import { lines } from "./util";
 
 const matcher = insertMatcher()
@@ -12,8 +12,8 @@ test.each<[string, Record<string, Tokens[]>]>([
             "values ( 1 , 'abc' , 1234 )",
         ),
         {
-            "insert-tbl": [["tbl1"],],
-            "insert-values": [["1"], ["'abc'"], ["1234"],],
+            [insertKey.table]: [["tbl1"],],
+            [insertKey.values]: [["1"], ["'abc'"], ["1234"],],
         },
     ],
     [
@@ -22,9 +22,9 @@ test.each<[string, Record<string, Tokens[]>]>([
             "values ( 1 , 'abc' , 1234 )",
         ),
         {
-            "insert-tbl": [["tbl1"],],
-            "insert-col": [["col1"], ["col2"], ["col3"],],
-            "insert-values": [["1"], ["'abc'"], ["1234"],],
+            [insertKey.table]: [["tbl1"],],
+            [insertKey.column]: [["col1"], ["col2"], ["col3"],],
+            [insertKey.values]: [["1"], ["'abc'"], ["1234"],],
         },
     ],
     //insert into select
@@ -34,10 +34,10 @@ test.each<[string, Record<string, Tokens[]>]>([
             "select col4,col5,col6 from tbl2,tbl3",
         ),
         {
-            "insert-tbl": [["tbl1"],],
-            "insert-col": [["col1"], ["col2"], ["col3"],],
-            "select-select": [["col4"], ["col5"], ["col6"],],
-            "select-from": [["tbl2"], ["tbl3"]],
+            [insertKey.table]: [["tbl1"],],
+            [insertKey.column]: [["col1"], ["col2"], ["col3"],],
+            [selectKey.select]: [["col4"], ["col5"], ["col6"],],
+            [selectKey.from]: [["tbl2"], ["tbl3"]],
         },
     ],
     [
@@ -46,10 +46,10 @@ test.each<[string, Record<string, Tokens[]>]>([
             "select col4 from tbl2 where id = 1001",
         ),
         {
-            "insert-tbl": [["tbl1"],],
-            "insert-col": [["col1"], ["col2"], ["col3"],],
-            "select-select": [["col4"]],
-            "select-from": [["tbl2"]],
+            [insertKey.table]: [["tbl1"],],
+            [insertKey.column]: [["col1"], ["col2"], ["col3"],],
+            [selectKey.select]: [["col4"]],
+            [selectKey.from]: [["tbl2"]],
             "where-condition": [["id", "=", "1001"]],
         },
     ],
