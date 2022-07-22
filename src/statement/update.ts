@@ -1,6 +1,6 @@
 import { cap, li, opt, toMatcher } from "mirabow";
 import { expressionMatcher } from "../expression";
-import { where } from "./select";
+import { whereMatcher } from "./select";
 import { ColumnName, TableName } from "./util";
 
 export const updateKey = {
@@ -16,6 +16,6 @@ export const updateMatcher = () => toMatcher(
         cap(keys.set, [ColumnName(), "=", expressionMatcher()]),
         ","
     ),
-    opt(where())
+    opt(whereMatcher())
 )
 

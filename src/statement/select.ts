@@ -2,7 +2,6 @@ import { cap, def, li, opt, or, ref, toMatcher } from "mirabow";
 import { expressionMatcher, integerMatcher, nullMatcher, stringMatcher } from "../expression";
 import { ColumnName, TableName } from "./util";
 
-
 const whereCondition = () => or(
     //like
     [expressionMatcher(), "like", stringMatcher()],
@@ -22,9 +21,9 @@ const whereCondition = () => or(
     //expression
     expressionMatcher(),
 )
-export const where = () => def("where")(
+export const whereMatcher = (captureName: string = "where-condition") => def("where")(
     "where", li(
-        cap("where-condition", whereCondition()),
+        cap(captureName, whereCondition()),
         or("and", "or")
     )
 )
@@ -32,6 +31,7 @@ export const where = () => def("where")(
 export const selectKey = {
     select: "select-select",
     from: "select-from",
+    where: "select-where",
     groupBy: "select-group-by",
     orderBy: "select-order-by",
     limit: "select-limit",
@@ -40,16 +40,14 @@ export const selectKey = {
 const keys = selectKey
 
 export const selectMatcher = () => toMatcher(
-    def("select")(
-        "select", opt("distinct"), li(cap(keys.select, expressionMatcher()), ","),
-        "from", li(cap(keys.from, TableName()), ","),
-        opt(where()),
-        opt("group", "by", li(cap(keys.groupBy, ColumnName()), ",")),
-        opt("order", "by", li(
-            cap(keys.orderBy, [ColumnName(), opt(or("asc", "desc"))]), ","
-        )),
-        opt("limit", cap(keys.limit, integerMatcher())),
-        opt("offset", cap(keys.offset, integerMatcher())),
-    )
+    "select", opt("distinct"), li(cap(keys.select, expressionMatcher()), ","),
+    "from", li(cap(keys.from, TableName()), ","),
+    opt(whereMatcher()),
+    opt("group", "by", li(cap(keys.groupBy, ColumnName()), ",")),
+    opt("order", "by", li(
+        cap(keys.orderBy, [ColumnName(), opt(or("asc", "desc"))]), ","
+    )),
+    opt("limit", cap(keys.limit, integerMatcher())),
+    opt("offset", cap(keys.offset, integerMatcher())),
 )
 

@@ -1,4 +1,4 @@
-import { execute, Tokens } from "mirabow"
+import { MatcherExecutor, Tokens } from "mirabow"
 import { selectKey, selectMatcher } from "../src"
 import { lines } from "./util"
 
@@ -192,7 +192,8 @@ test.each<[string, Record<string, Tokens[]>]>([
         },
     ],
 ])("correct select : %p", (sql, captures) => {
-    const out = execute(matcher, sql)
+    const executor = new MatcherExecutor(matcher)
+    const out = executor.execute(sql)
     expect(out.isOk)
         .toBe(true)
     Object.entries(captures).forEach(([capName, capExpect]) => {
