@@ -1,6 +1,6 @@
 import { capture, toMatcher } from "mirabow";
 import { TableName } from "./util";
 
-export const dropTableMatcher = toMatcher(
+export const dropTableMatcher = () => toMatcher(
     "drop", "table", capture("drop-table-col", TableName()),
 )
