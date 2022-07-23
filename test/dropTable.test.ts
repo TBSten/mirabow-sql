@@ -20,6 +20,6 @@ test.each<[string, Capture]>([
     expect(out.isOk)
         .toBe(true)
     expect(out.capture)
-        .toEqual(expect.objectContaining(captures))
+        .toEqual(captures)
 })
 

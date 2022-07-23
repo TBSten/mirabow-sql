@@ -9,10 +9,10 @@ test.each<[string, Capture]>([
     //select,from句
     [
         "select col1 from tbl1",
-        {
+        expect.objectContaining({
             [selectKey.select]: [["col1"]],
             [selectKey.from]: [["tbl1"]],
-        }
+        })
     ],
     //複数列・表
     [
