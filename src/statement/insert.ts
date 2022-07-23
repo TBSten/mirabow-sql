@@ -1,4 +1,4 @@
-import { cap, li, opt, or, toMatcher } from "mirabow";
+import { cap, li, opt, or, scope, toMatcher } from "mirabow";
 import { expressionMatcher } from "../expression";
 import { selectMatcher } from "./select";
 import { ColumnName, TableName } from "./util";
@@ -7,6 +7,7 @@ export const insertKey = {
     table: "insert-tbl",
     column: "insert-col",
     values: "insert-values",
+    select: "insert-select",
 }
 const keys = insertKey
 
@@ -25,6 +26,6 @@ export const insertMatcher = () => toMatcher(
                 ",",
             ),
         ],
-        [selectMatcher()]
+        scope(keys.select)(selectMatcher()),
     )
 )

@@ -1,10 +1,10 @@
-import { CaptureNode, MatcherExecutor } from "mirabow";
+import { Capture, MatcherExecutor } from "mirabow";
 import { createTableKey, createTableMatcher } from "../src";
 import { lines } from "./util";
 
 const matcher = createTableMatcher()
 
-test.each<[string, Record<string, CaptureNode[]>]>([
+test.each<[string, Capture]>([
     //create table
     [
         lines(
@@ -14,7 +14,7 @@ test.each<[string, Record<string, CaptureNode[]>]>([
             "  col3 float",
             ")",
         ),
-        {
+        expect.objectContaining({
             [createTableKey.table]: [["tbl1"]],
             [createTableKey.def.column]: [
                 ["col1", "integer", "primary", "key"],
@@ -22,7 +22,7 @@ test.each<[string, Record<string, CaptureNode[]>]>([
                 ["col3", "float"],
             ],
             [createTableKey.column]: [["col1"], ["col2"], ["col3"]],
-        },
+        }),
     ],
     //table constraint
     [
@@ -34,7 +34,7 @@ test.each<[string, Record<string, CaptureNode[]>]>([
             "  primary key (col1)",
             ")",
         ),
-        {
+        expect.objectContaining({
             [createTableKey.table]: [["tbl1"]],
             [createTableKey.def.column]: [
                 ["col1", "integer"],
@@ -43,7 +43,7 @@ test.each<[string, Record<string, CaptureNode[]>]>([
             ],
             [createTableKey.column]: [["col1"], ["col2"], ["col3"]],
             "create-table-table-def": [["primary", "key", "(", "col1", ")"]],
-        },
+        }),
     ],
     //型
     [
@@ -57,7 +57,7 @@ test.each<[string, Record<string, CaptureNode[]>]>([
             "  col6 integer references tbl2(colA)",
             ")",
         ),
-        {
+        expect.objectContaining({
             [createTableKey.table]: [["tbl1"]],
             [createTableKey.def.column]: [
                 ["col1", "integer", "primary", "key"],
@@ -68,16 +68,14 @@ test.each<[string, Record<string, CaptureNode[]>]>([
                 ["col6", "integer", "references", "tbl2", "(", "colA", ")"],
             ],
             [createTableKey.column]: [["col1"], ["col2"], ["col3"], ["col4"], ["col5"], ["col6"],],
-        },
+        }),
     ],
 ])("correct create table : %p", (sql, captures) => {
     const executor = new MatcherExecutor(matcher)
     const out = executor.execute(sql)
     expect(out.isOk)
         .toBe(true)
-    Object.entries(captures).forEach(([capName, capExpect]) => {
-        expect(out.capture[capName])
-            .toEqual(capExpect)
-    })
+    expect(out.capture)
+        .toEqual(captures)
 })
 

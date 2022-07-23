@@ -1,10 +1,10 @@
-import { CaptureNode, MatcherExecutor } from "mirabow";
+import { Capture, MatcherExecutor } from "mirabow";
 import { updateKey, updateMatcher } from "../src";
 import { lines } from "./util";
 
 const matcher = updateMatcher()
 
-test.each<[string, Record<string, CaptureNode[]>]>([
+test.each<[string, Capture]>([
     //update set
     [
         lines(
@@ -38,9 +38,7 @@ test.each<[string, Record<string, CaptureNode[]>]>([
     const out = executor.execute(sql)
     expect(out.isOk)
         .toBe(true)
-    Object.entries(captures).forEach(([capName, capExpect]) => {
-        expect(out.capture[capName])
-            .toEqual(capExpect)
-    })
+    expect(out.capture)
+        .toEqual(expect.objectContaining(captures))
 })
 
