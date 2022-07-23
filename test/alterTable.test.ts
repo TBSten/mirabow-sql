@@ -1,10 +1,10 @@
-import { MatcherExecutor, Tokens } from "mirabow";
+import { MatcherExecutor } from "mirabow";
 import { alterTableKey, alterTableMatcher } from "../src";
 import { lines } from "./util";
 
 const matcher = alterTableMatcher()
 
-test.each<[string, Record<string, Tokens[]>]>([
+test.each<[string, Record<string, CaptureNode[]>]>([
     //alter table rename table
     [
         lines(

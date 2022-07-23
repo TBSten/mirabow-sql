@@ -1,10 +1,10 @@
-import { MatcherExecutor, Tokens } from "mirabow";
+import { CaptureNode, MatcherExecutor } from "mirabow";
 import { deleteKey, deleteMatcher } from "../src";
 import { lines } from "./util";
 
 const matcher = deleteMatcher()
 
-test.each<[string, Record<string, Tokens[]>]>([
+test.each<[string, Record<string, CaptureNode[]>]>([
     //delete
     [
         lines(

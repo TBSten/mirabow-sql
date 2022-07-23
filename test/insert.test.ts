@@ -1,10 +1,13 @@
-import { MatcherExecutor, Tokens } from "mirabow";
+import { Capture, MatcherExecutor } from "mirabow";
 import { insertKey, insertMatcher, selectKey } from "../src";
 import { lines } from "./util";
 
 const matcher = insertMatcher()
 
-test.each<[string, Record<string, Tokens[]>]>([
+const c: Capture = {
+    "a": [["a"]]
+}
+test.each<[string, Capture]>([
     //insert into values
     [
         lines(
@@ -36,8 +39,10 @@ test.each<[string, Record<string, Tokens[]>]>([
         {
             [insertKey.table]: [["tbl1"],],
             [insertKey.column]: [["col1"], ["col2"], ["col3"],],
-            [selectKey.select]: [["col4"], ["col5"], ["col6"],],
-            [selectKey.from]: [["tbl2"], ["tbl3"]],
+            "select": {
+                [selectKey.select]: [["col4"], ["col5"], ["col6"],],
+                [selectKey.from]: [["tbl2"], ["tbl3"]],
+            }
         },
     ],
     [

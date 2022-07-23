@@ -1,10 +1,10 @@
-import { MatcherExecutor, Tokens } from "mirabow";
+import { CaptureNode, MatcherExecutor } from "mirabow";
 import { dropTableKey, dropTableMatcher } from "../src";
 import { lines } from "./util";
 
 const matcher = dropTableMatcher()
 
-test.each<[string, Record<string, Tokens[]>]>([
+test.each<[string, Record<string, CaptureNode[]>]>([
     //drop table
     [
         lines(

@@ -1,11 +1,11 @@
-import { MatcherExecutor, Tokens } from "mirabow"
+import { Capture, CaptureNode, getCapture, MatcherExecutor } from "mirabow"
 import { selectKey, selectMatcher } from "../src"
 import { lines } from "./util"
 
 
 const matcher = selectMatcher()
 
-test.each<[string, Record<string, Tokens[]>]>([
+test.each<[string, Record<string, CaptureNode[]>]>([
     //select,from句
     [
         "select col1 from tbl1",
@@ -197,8 +197,8 @@ test.each<[string, Record<string, Tokens[]>]>([
     expect(out.isOk)
         .toBe(true)
     Object.entries(captures).forEach(([capName, capExpect]) => {
-        // expect(out.capture["select"][capName])
-        //     .toEqual(capExpect)
-        const selectCapture = getCapture()
+        const cap = getCapture(out.capture, "select") as Capture
+        expect(getCapture(cap, capName))
+            .toEqual(capExpect)
     })
 })

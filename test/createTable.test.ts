@@ -1,10 +1,10 @@
-import { MatcherExecutor, Tokens } from "mirabow";
+import { CaptureNode, MatcherExecutor } from "mirabow";
 import { createTableKey, createTableMatcher } from "../src";
 import { lines } from "./util";
 
 const matcher = createTableMatcher()
 
-test.each<[string, Record<string, Tokens[]>]>([
+test.each<[string, Record<string, CaptureNode[]>]>([
     //create table
     [
         lines(
