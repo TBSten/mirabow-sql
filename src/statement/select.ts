@@ -1,4 +1,4 @@
-import { cap, def, li, opt, or, ref, toMatcher } from "mirabow";
+import { cap, capture, def, li, opt, or, ref, toMatcher } from "mirabow";
 import { expressionMatcher, integerMatcher, nullMatcher, stringMatcher } from "../expression";
 import { ColumnName, TableName } from "./util";
 
@@ -30,6 +30,7 @@ export const whereMatcher = (captureName: string = "where-condition") => def("wh
 
 export const selectKey = {
     select: "select-select",
+    distinct: "select-distinct",
     from: "select-from",
     where: "select-where",
     groupBy: "select-group-by",
@@ -40,7 +41,7 @@ export const selectKey = {
 const keys = selectKey
 
 export const selectMatcher = () => toMatcher(
-    "select", opt("distinct"), li(cap(keys.select, expressionMatcher()), ","),
+    "select", capture(keys.distinct, opt("distinct")), li(cap(keys.select, expressionMatcher()), ","),
     "from", li(cap(keys.from, TableName()), ","),
     opt(whereMatcher()),
     opt("group", "by", li(cap(keys.groupBy, ColumnName()), ",")),
