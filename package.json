@@ -29,8 +29,8 @@
       "types": "./index.d.ts"
     }
   },
-  "dependencies": {
-    "mirabow": "0.0.29"
+  "peerDependencies": {
+    "mirabow": "0.0.32"
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",
