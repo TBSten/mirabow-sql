@@ -1,5 +1,5 @@
 
-![mirabow-image](doc/images/icon.png)
+![mirabow-image](doc/images/wide-icon.png)
 
 # MIRABOW SQL
 
