@@ -10,5 +10,6 @@ export * from "./statement/delete"
 export * from "./statement/dropTable"
 export * from "./statement/insert"
 export * from "./statement/select"
+export * from "./statement/statement"
 export * from "./statement/update"
 
