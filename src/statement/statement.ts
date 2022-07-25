@@ -7,21 +7,29 @@ import { insertMatcher } from "./insert";
 import { selectMatcher } from "./select";
 import { updateMatcher } from "./update";
 
+const pre = "sql-statement-"
 export const statementsKey = {
     statement: "sql-statement",
-    scope: "sql-statement-scope"
+    scope: pre + "scope",
+    select: pre + "select",
+    insert: pre + "insert",
+    update: pre + "update",
+    delete: pre + "delete",
+    createTable: pre + "createTable",
+    alterTable: pre + "alterTable",
+    dropTable: pre + "dropTable",
 }
 const keys = statementsKey
 
 export const statementMatcher = () => arrayScope(keys.scope)(
     capture(keys.statement, or(
-        selectMatcher(),
-        insertMatcher(),
-        updateMatcher(),
-        deleteMatcher(),
-        createTableMatcher(),
-        alterTableMatcher(),
-        dropTableMatcher(),
+        capture(keys.select, selectMatcher()),
+        capture(keys.insert, insertMatcher()),
+        capture(keys.update, updateMatcher()),
+        capture(keys.delete, deleteMatcher()),
+        capture(keys.createTable, createTableMatcher()),
+        capture(keys.alterTable, alterTableMatcher()),
+        capture(keys.dropTable, dropTableMatcher()),
     ))
 )
 
