@@ -15,7 +15,7 @@ test.each<[string, any]>([
         ),
         expect.objectContaining({
             [insertKey.table]: [["tbl1"],],
-            [insertKey.values]: [["1"], ["'abc'"], ["1234"],],
+            [insertKey.values.scope]: expect.objectContaining({}),
         }),
     ],
     [
@@ -26,7 +26,25 @@ test.each<[string, any]>([
         expect.objectContaining({
             [insertKey.table]: [["tbl1"],],
             [insertKey.column]: [["col1"], ["col2"], ["col3"],],
-            [insertKey.values]: [["1"], ["'abc'"], ["1234"],],
+            [insertKey.values.scope]: expect.objectContaining({}),
+        }),
+    ],
+    [
+        lines(
+            "insert into tbl1( col1 , col2 , col3 )",
+            "values ( 1 , 'abc' , 1234 ) , ( 2 , 'abc' , 1234 )",
+        ),
+        expect.objectContaining({
+            [insertKey.table]: [["tbl1"],],
+            [insertKey.column]: [["col1"], ["col2"], ["col3"],],
+            [insertKey.values.scope]: expect.arrayContaining([
+                {
+                    [insertKey.values.value]: [["1"], ["'abc'"], ["1234"]],
+                },
+                {
+                    [insertKey.values.value]: [["2"], ["'abc'"], ["1234"]],
+                },
+            ]),
         }),
     ],
     //insert into select
