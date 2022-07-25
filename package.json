@@ -1,6 +1,6 @@
 {
   "name": "mirabow-sql",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "mirabow extension for sql",
   "keywords": [
     "parser",
