@@ -1,6 +1,6 @@
 {
   "name": "mirabow-sql",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "mirabow extension for sql",
   "keywords": [
     "parser",
@@ -30,7 +30,7 @@
     }
   },
   "devDependencies": {
-    "mirabow": "0.0.33",
+    "mirabow": "0.0.34",
     "@types/jest": "^28.1.6",
     "@types/node": "^18.0.6",
     "jest": "^28.1.3",
