@@ -15,7 +15,7 @@ test.each<[string, any]>([
         ),
         expect.objectContaining({
             [insertKey.table]: [["tbl1"],],
-            [insertKey.values.scope]: expect.objectContaining({}),
+            [insertKey.values.scope]: expect.arrayContaining([]),
         }),
     ],
     [
@@ -26,7 +26,7 @@ test.each<[string, any]>([
         expect.objectContaining({
             [insertKey.table]: [["tbl1"],],
             [insertKey.column]: [["col1"], ["col2"], ["col3"],],
-            [insertKey.values.scope]: expect.objectContaining({}),
+            [insertKey.values.scope]: expect.objectContaining([]),
         }),
     ],
     [
@@ -38,12 +38,12 @@ test.each<[string, any]>([
             [insertKey.table]: [["tbl1"],],
             [insertKey.column]: [["col1"], ["col2"], ["col3"],],
             [insertKey.values.scope]: expect.arrayContaining([
-                {
+                expect.objectContaining({
                     [insertKey.values.value]: [["1"], ["'abc'"], ["1234"]],
-                },
-                {
+                }),
+                expect.objectContaining({
                     [insertKey.values.value]: [["2"], ["'abc'"], ["1234"]],
-                },
+                }),
             ]),
         }),
     ],
@@ -73,7 +73,7 @@ test.each<[string, any]>([
             [insertKey.select]: expect.objectContaining({
                 [selectKey.select]: [["col4"]],
                 [selectKey.from]: [["tbl2"]],
-                "where-condition": [["id", "=", "1001"]],
+                "where-condition": expect.arrayContaining([["id", "=", "1001"]]),
             }),
         }),
     ],
