@@ -333,7 +333,7 @@ result.capture = {
 - (実行例1) WHERE句のキャプチャ名が不規則なのは他の文(DELETE,UPDATE)で使用する可能性があるため、
     `select-where`とすると他の文で紛らわしい名前になってしまうためです。
 
-- (実行例2) またWHERE句のキャプチャについては現在開発段階です。今後大幅にキャプチャ構造が変わる可能性があります。
+- ⚠️ (実行例2) またWHERE句のキャプチャについては現在開発段階です。今後大幅にキャプチャ構造が変わる可能性があります。
 
 #### `insert`
 
@@ -418,7 +418,7 @@ result.capture = {
 }
 ```
 
-- [selectMatcher](#selectmatcher-capture)でも述べたとおり、開発中のWHERE句のキャプチャについては現在開発段階です。今後大幅にキャプチャ構造が変わる可能性があります。
+- ⚠️ [selectMatcher](#selectmatcher-capture)でも述べたとおり、開発中のWHERE句のキャプチャについては現在開発段階です。今後大幅にキャプチャ構造が変わる可能性があります。
 
 ---
 
@@ -453,7 +453,7 @@ result.capture = {
 }
 ```
 
-- [selectMatcher](#selectmatcher-capture)でも述べたとおり、開発中のWHERE句のキャプチャについては現在開発段階です。今後大幅にキャプチャ構造が変わる可能性があります。
+- ⚠️ [selectMatcher](#selectmatcher-capture)でも述べたとおり、開発中のWHERE句のキャプチャについては現在開発段階です。今後大幅にキャプチャ構造が変わる可能性があります。
 
 ---
 
@@ -509,7 +509,7 @@ result.capture = {
 }
 ```
 
-- WHERE句と同様にCREATE TABLEの列の定義についても現在開発中で今後大幅に変更される予定です。
+- ⚠️ WHERE句と同様にCREATE TABLEの列の定義についても現在開発中で今後大幅に変更される予定です。
 
 ---
 
