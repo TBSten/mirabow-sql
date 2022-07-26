@@ -42,7 +42,7 @@ test.each<[string, Capture]>([
         expect.objectContaining({
             [selectKey.select]: [["*"]],
             [selectKey.from]: [["tbl1"]],
-            "where-condition": [["col1", "=", "col2"], ["col3", ">=", "col4"]],
+            [selectKey.where]: [["col1", "=", "col2"], ["col3", ">=", "col4"]],
         })
     ],
     //各比較演算子
@@ -56,7 +56,7 @@ test.each<[string, Capture]>([
         expect.objectContaining({
             [selectKey.select]: [["*"]],
             [selectKey.from]: [["tbl1"]],
-            "where-condition": [
+            [selectKey.where]: [
                 ["col1", "=", "col2"], ["col3", "!=", "col4"],
                 ["col5", ">=", "col6"], ["col7", "<=", "col8"],
                 ["col9", ">", "col10"], ["col11", "<", "col12"],

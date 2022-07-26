@@ -1,5 +1,6 @@
 import { Capture, MatcherExecutor } from "mirabow";
 import { alterTableKey, alterTableMatcher } from "../src";
+import { columnDefinitionKey } from "../src/statement/definition";
 import { lines } from "./util";
 
 const matcher = alterTableMatcher()
@@ -47,8 +48,9 @@ test.each<[string, Capture]>([
         ),
         expect.objectContaining({
             [alterTableKey.table]: [["tbl1"]],
-            [alterTableKey.add.column.name]: [["col1"]],
-            [alterTableKey.add.column.def]: [["col1", "integer"]],
+            [alterTableKey.add.column]: [["col1", "integer"]],
+            [columnDefinitionKey.name]: [["col1"]],
+            [columnDefinitionKey.type]: [["integer"]],
         }),
     ],
     [
@@ -58,8 +60,9 @@ test.each<[string, Capture]>([
         ),
         expect.objectContaining({
             [alterTableKey.table]: [["tbl1"]],
-            [alterTableKey.add.column.name]: [["col1"]],
-            [alterTableKey.add.column.def]: [["col1", "integer"]],
+            [alterTableKey.add.column]: [["col1", "integer"]],
+            [columnDefinitionKey.name]: [["col1"]],
+            [columnDefinitionKey.type]: [["integer"]],
         }),
     ],
     //alter table drop column
@@ -83,7 +86,7 @@ test.each<[string, Capture]>([
             [alterTableKey.drop.column]: [["col1"]],
         }),
     ],
-])("correct create table : %p", (sql, captures) => {
+])("correct alter table : %p", (sql, captures) => {
     const executor = new MatcherExecutor(matcher)
     const out = executor.execute(sql)
     expect(out.isOk)

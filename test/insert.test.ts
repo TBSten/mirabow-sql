@@ -73,7 +73,7 @@ test.each<[string, any]>([
             [insertKey.select]: expect.objectContaining({
                 [selectKey.select]: [["col4"]],
                 [selectKey.from]: [["tbl2"]],
-                "where-condition": expect.arrayContaining([["id", "=", "1001"]]),
+                [selectKey.where]: expect.arrayContaining([["id", "=", "1001"]]),
             }),
         }),
     ],

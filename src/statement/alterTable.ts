@@ -1,5 +1,5 @@
 import { cap, opt, or, toMatcher } from "mirabow";
-import { ColumnDefinition } from "./createTable";
+import { ColumnDefinition } from "./definition";
 import { ColumnName, TableName } from "./util";
 
 export const alterTableKey = {
@@ -12,10 +12,7 @@ export const alterTableKey = {
         },
     },
     add: {
-        column: {
-            name: "alter-table-add-column",
-            def: "alter-table-add-column-def",
-        }
+        column: "alter-table-add-column-def",
     },
     drop: {
         column: "alter-table-drop-column",
@@ -29,7 +26,7 @@ export const alterTableMatcher = () => toMatcher(
         ["rename", "to", cap(alterTableKey.rename.table, TableName())],
         ["rename", opt("column"), cap(keys.rename.column.before, ColumnName()),
             "to", cap(keys.rename.column.after, ColumnName())],
-        ["add", opt("column"), cap(keys.add.column.def, ColumnDefinition(keys.add.column.name))],
+        ["add", opt("column"), cap(keys.add.column, ColumnDefinition())],
         ["drop", opt("column"), cap(keys.drop.column, ColumnName())],
     ),
 )
