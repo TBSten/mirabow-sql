@@ -41,7 +41,7 @@ export const selectKey = {
 const keys = selectKey
 
 export const selectMatcher = () => toMatcher(
-    "select", opt(capture(keys.distinct, "distinct")), li(cap(keys.select, expressionMatcher()), ","),
+    "select", opt(capture(keys.distinct, "distinct")), or(cap(keys.select, "*"), li(cap(keys.select, expressionMatcher()), ",")),
     "from", li(cap(keys.from, TableName()), ","),
     opt(whereMatcher(keys.where)),
     opt("group", "by", li(cap(keys.groupBy, ColumnName()), ",")),

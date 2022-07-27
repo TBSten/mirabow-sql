@@ -41,7 +41,6 @@ test("correct where", () => {
                             {
                                 mul: [
                                     {
-                                        column: [["num"]],
                                         "mul-target": [["num"]],
                                     },
                                 ],

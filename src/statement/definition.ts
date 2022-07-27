@@ -1,7 +1,7 @@
 
 //type
 
-import { cap, li, or, repeat, token, toMatcher } from "mirabow"
+import { any, cap, li, or, repeat, toMatcher } from "mirabow"
 import { expressionMatcher } from "../expression"
 import { ColumnName, Identifier, TableName } from "./util"
 
@@ -16,7 +16,7 @@ const IntegerType = () => or(
     "int2",
     "int8"
 )
-const SizeSpecify = () => ["(", token(), ")"]
+const SizeSpecify = () => ["(", any(), ")"]
 const TextType = () => toMatcher(or(
     ["character", SizeSpecify()],
     ["varchar", SizeSpecify()],
@@ -36,7 +36,7 @@ const RealType = () => toMatcher(or(
 ))
 const NumericType = () => toMatcher(or(
     "numeric",
-    ["decimal", "(", token(), ",", token(), ")"],
+    ["decimal", "(", any(), ",", any(), ")"],
     "boolean",
     "date",
     "datetime",

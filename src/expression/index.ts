@@ -1,9 +1,9 @@
-import { arrayScope, cap, def, is, li, or, ref, token, ToMatcherArg } from "mirabow";
+import { any, arrayScope, cap, def, is, li, or, ref, token, ToMatcherArg } from "mirabow";
 
 export const stringMatcher = () => is(/^('.*')$/)
 export const integerMatcher = () => is(/^([0-9]+)$/)
 export const numberMatcher = () => is(/^([0-9]+(\.[0-9]+)?)$/)
-export const columnMatcher = () => cap("column", or([[token(), ".", token()]], token()))
+export const columnMatcher = () => or([[any(), ".", any()]], any())
 export const nullMatcher = () => is("null")
 
 const uniMatcher = () => {

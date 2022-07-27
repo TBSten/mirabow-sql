@@ -200,7 +200,6 @@ result.capture = {
             'sql-statement-select': [ [ 'select', '*', 'from', 'tbl1' ] ],
             'sql-statement': [ [ 'select', '*', 'from', 'tbl1' ] ],
             //以下SELECT文のキャプチャ結果
-            column: [ [ '*' ] ],
             'select-select': [ [ '*' ] ],
             'select-from': [ [ 'tbl1' ] ],
         },
@@ -209,7 +208,6 @@ result.capture = {
             'sql-statement-select': [ [ 'select', '*', 'from', 'tbl2' ] ],
             'sql-statement': [ [ 'select', '*', 'from', 'tbl2' ] ],
             //以下SELECT文のキャプチャ結果
-            column: [ [ '*' ] ],
             'select-select': [ [ '*' ] ],
             'select-from': [ [ 'tbl2' ] ],
         }
@@ -265,7 +263,6 @@ result.capture = {
             'sql-statement': [ [ 'select', '*', 'from', 'tbl1' ] ]
             'select-select': [ [ '*' ] ],
             'select-from': [ [ 'tbl1' ] ],
-            column: [ [ '*' ] ],
       }
     ]
 }
@@ -414,7 +411,6 @@ result.capture = {
     'update-update': [ [ 'tbl' ] ],
     'update-set': [ [ 'name', '=', "'tbsten'" ] ],
     'where-condition': [ [ 'id', '=', '3' ] ]
-    column: [ [ 'id' ] ],
 }
 ```
 
