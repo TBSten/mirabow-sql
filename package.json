@@ -30,7 +30,7 @@
     }
   },
   "devDependencies": {
-    "mirabow": "0.0.34",
+    "mirabow": "0.0.37",
     "@types/jest": "^28.1.6",
     "@types/node": "^18.0.6",
     "jest": "^28.1.3",
