@@ -1,31 +1,33 @@
-import { cap, capture, def, li, opt, or, ref, toMatcher } from "mirabow";
-import { expressionMatcher, integerMatcher, nullMatcher, stringMatcher } from "../expression";
+import { cap, capture, def, li, opt, or } from "mirabow";
+import { expression, integerMatcher, nullMatcher, stringMatcher } from "../expression";
 import { ColumnName, TableName } from "./util";
 
-const whereCondition = () => or(
+const whereCondition = def(() => or(
     //like
-    [expressionMatcher(), "like", stringMatcher()],
+    [expression, "like", stringMatcher],
     //is null
-    [expressionMatcher(), "is", opt("not"), nullMatcher()],
+    [expression, "is", opt("not"), nullMatcher],
     //between
-    [expressionMatcher(), opt("not"),
-        "between", expressionMatcher(), "and", expressionMatcher()],
+    [expression, opt("not"),
+        "between", expression, "and", expression],
     //in
-    [expressionMatcher(), opt("not"),
+    [expression, opt("not"),
         "in", "(", or(
-            ref("select"),
-            li(expressionMatcher(), ",")
+            selectMatcher,
+            li(expression, ",")
         ), ")"],
     //exists
-    [opt("not"), "exists", "(", ref("select"), ")"],
+    [opt("not"), "exists", "(", selectMatcher, ")"],
     //expression
-    expressionMatcher(),
-)
-export const whereMatcher = (captureName: string = "where-condition") => def("where")(
-    "where", li(
-        cap(captureName, whereCondition()),
-        or("and", "or")
-    )
+    expression,
+))
+const _whereMatcherFactry = (capName: string = "where-condition") => def("where", li(
+    cap(capName, whereCondition),
+    or("and", "or")
+))
+export const whereMatcher = Object.assign(
+    (capName: string) => _whereMatcherFactry(capName),
+    _whereMatcherFactry(),
 )
 
 export const selectKey = {
@@ -40,15 +42,15 @@ export const selectKey = {
 }
 const keys = selectKey
 
-export const selectMatcher = () => toMatcher(
-    "select", opt(capture(keys.distinct, "distinct")), or(cap(keys.select, "*"), li(cap(keys.select, expressionMatcher()), ",")),
-    "from", li(cap(keys.from, TableName()), ","),
+export const selectMatcher = def(
+    "select", opt(capture(keys.distinct, "distinct")), or(cap(keys.select, "*"), li(cap(keys.select, expression), ",")),
+    "from", li(cap(keys.from, TableName), ","),
     opt(whereMatcher(keys.where)),
-    opt("group", "by", li(cap(keys.groupBy, ColumnName()), ",")),
+    opt("group", "by", li(cap(keys.groupBy, ColumnName), ",")),
     opt("order", "by", li(
-        cap(keys.orderBy, [ColumnName(), opt(or("asc", "desc"))]), ","
+        cap(keys.orderBy, [ColumnName, opt(or("asc", "desc"))]), ","
     )),
-    opt("limit", cap(keys.limit, integerMatcher())),
-    opt("offset", cap(keys.offset, integerMatcher())),
+    opt("limit", cap(keys.limit, integerMatcher)),
+    opt("offset", cap(keys.offset, integerMatcher)),
 )
 

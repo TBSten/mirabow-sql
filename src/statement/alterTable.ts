@@ -1,4 +1,4 @@
-import { cap, opt, or, toMatcher } from "mirabow";
+import { cap, def, opt, or } from "mirabow";
 import { ColumnDefinition } from "./definition";
 import { ColumnName, TableName } from "./util";
 
@@ -20,14 +20,14 @@ export const alterTableKey = {
 }
 const keys = alterTableKey
 
-export const alterTableMatcher = () => toMatcher(
-    "alter", "table", cap(alterTableKey.table, TableName()),
+export const alterTableMatcher = def(
+    "alter", "table", cap(alterTableKey.table, TableName),
     or(
-        ["rename", "to", cap(alterTableKey.rename.table, TableName())],
-        ["rename", opt("column"), cap(keys.rename.column.before, ColumnName()),
-            "to", cap(keys.rename.column.after, ColumnName())],
-        ["add", opt("column"), cap(keys.add.column, ColumnDefinition())],
-        ["drop", opt("column"), cap(keys.drop.column, ColumnName())],
+        ["rename", "to", cap(alterTableKey.rename.table, TableName)],
+        ["rename", opt("column"), cap(keys.rename.column.before, ColumnName),
+            "to", cap(keys.rename.column.after, ColumnName)],
+        ["add", opt("column"), cap(keys.add.column, ColumnDefinition)],
+        ["drop", opt("column"), cap(keys.drop.column, ColumnName)],
     ),
 )
 

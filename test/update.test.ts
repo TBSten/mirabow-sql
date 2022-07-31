@@ -1,10 +1,10 @@
-import { Capture, MatcherExecutor } from "mirabow";
-import { updateKey, updateMatcher } from "../src";
+import { MatcherExecutor } from "mirabow";
+import { updateMatcher } from "../src";
 import { lines } from "./util";
 
-const matcher = updateMatcher()
+const matcher = updateMatcher
 
-test.each<[string, Capture]>([
+test.each<[string]>([
     //update set
     [
         lines(
@@ -12,11 +12,6 @@ test.each<[string, Capture]>([
             "set name = 'abc'",
             "where id = 1"
         ),
-        {
-            [updateKey.update]: [["tbl1"]],
-            [updateKey.set]: [["name", "=", "'abc'"]],
-            "where-condition": [["id", "=", "1"]],
-        },
     ],
     //複数列を更新
     [
@@ -27,18 +22,11 @@ test.each<[string, Capture]>([
             "old = old + 1",
             "where id = 1",
         ),
-        {
-            [updateKey.update]: [["tbl1"]],
-            [updateKey.set]: [["name", "=", "'abc'"], ["old", "=", "old", "+", "1"],],
-            "where-condition": [["id", "=", "1"]],
-        },
     ],
-])("correct update : %p", (sql, captures) => {
+])("correct update : %p", (sql) => {
     const executor = new MatcherExecutor(matcher)
     const out = executor.execute(sql)
     expect(out.isOk)
         .toBe(true)
-    expect(out.capture)
-        .toEqual(expect.objectContaining(captures))
 })
 

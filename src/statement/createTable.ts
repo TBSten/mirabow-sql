@@ -1,4 +1,4 @@
-import { arrayScope, cap, li, or, toMatcher } from "mirabow";
+import { arrayScope, cap, def, li, or } from "mirabow";
 import { ColumnDefinition, TableDefinition } from "./definition";
 import { TableName } from "./util";
 
@@ -14,14 +14,14 @@ export const createTableKey = {
 }
 const keys = createTableKey
 
-export const createTableMatcher = () => toMatcher(
-    "create", "table", cap(keys.table, TableName()), "(",
+export const createTableMatcher = def(
+    "create", "table", cap(keys.table, TableName), "(",
     li(or(
         arrayScope(keys.def.column)(
-            ColumnDefinition(),
+            ColumnDefinition,
         ),
         arrayScope(keys.def.table)(
-            TableDefinition(),
+            TableDefinition,
         )
     ), ","),
     ")",

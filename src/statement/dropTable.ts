@@ -1,4 +1,4 @@
-import { capture, toMatcher } from "mirabow";
+import { capture, def } from "mirabow";
 import { TableName } from "./util";
 
 export const dropTableKey = {
@@ -6,6 +6,6 @@ export const dropTableKey = {
 }
 const keys = dropTableKey
 
-export const dropTableMatcher = () => toMatcher(
-    "drop", "table", capture(keys.table, TableName()),
+export const dropTableMatcher = def(
+    "drop", "table", capture(keys.table, TableName),
 )

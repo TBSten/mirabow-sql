@@ -1,5 +1,5 @@
-import { arrayScope, cap, li, opt, or, scope, toMatcher } from "mirabow";
-import { expressionMatcher } from "../expression";
+import { arrayScope, cap, def, li, opt, or, scope } from "mirabow";
+import { expression } from "../expression";
 import { selectMatcher } from "./select";
 import { ColumnName, TableName } from "./util";
 
@@ -14,27 +14,27 @@ export const insertKey = {
 }
 const keys = insertKey
 
-const valuesMatcher = () => [
+const valuesMatcher = def([
     "values",
     li([
         "(",
         arrayScope(keys.values.scope)(
-            li(cap(keys.values.value, expressionMatcher()), ",")
+            li(cap(keys.values.value, expression), ",")
         ),
         ")"
     ], ",",),
-]
-export const insertMatcher = () => toMatcher(
+])
+export const insertMatcher = def(
     "insert", "into",
-    cap(keys.table, TableName()),
+    cap(keys.table, TableName),
     opt("(",
-        li(cap(keys.column, ColumnName()), ","),
+        li(cap(keys.column, ColumnName), ","),
         ")",
     ),
     or(
-        valuesMatcher(),
+        valuesMatcher,
         scope(keys.select)(
-            selectMatcher(),
+            selectMatcher,
         ),
     )
 )

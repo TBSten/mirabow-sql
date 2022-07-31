@@ -1,36 +1,34 @@
-import { any, arrayScope, cap, def, is, li, or, ref, token, ToMatcherArg } from "mirabow";
+import { any, arrayScope, cap, def, is, li, or, token, ToMatcherArg } from "mirabow";
 
-export const stringMatcher = () => is(/^('.*')$/)
-export const integerMatcher = () => is(/^([0-9]+)$/)
-export const numberMatcher = () => is(/^([0-9]+(\.[0-9]+)?)$/)
-export const columnMatcher = () => or([[any(), ".", any()]], any())
-export const nullMatcher = () => is("null")
+export const stringMatcher = def(is(/^('.*')$/))
+export const integerMatcher = def(is(/^([0-9]+)$/))
+export const numberMatcher = def(is(/^([0-9]+(\.[0-9]+)?)$/))
+export const columnMatcher = def(or([[any(), ".", any()]], any()))
+export const nullMatcher = def(is("null"))
 
-const uniMatcher = () => {
-    return or(
-        [token(), "(", li(ref("expression"), ","), ")"], //function call
-        ["(", ref("expression"), ")"],
-        stringMatcher(),
-        numberMatcher(),
-        columnMatcher(),
-        nullMatcher(),
-    )
-}
+const uniMatcher = def(() => or(
+    [token(), "(", li(expression, ","), ")"], //function call
+    ["(", expression, ")"],
+    stringMatcher,
+    numberMatcher,
+    columnMatcher,
+    nullMatcher,
+))
 
-const doubleOp = <R>(
+const doubleOp = (
     name: string,
-    op: ToMatcherArg<R>,
-    child: ToMatcherArg<R>,
-) => def(name)(
+    op: ToMatcherArg,
+    child: ToMatcherArg,
+) => def(
     arrayScope(name)(
         li(cap(name + "-target", child), op)
     )
 )
 
-export const mulMatcher = () => doubleOp("mul", cap("mul-op", or("*", "/")), uniMatcher())
-export const addMatcher = () => doubleOp("add", cap("add-op", or("+", "-")), mulMatcher())
-export const compareMatcher = () => doubleOp("compare", cap("compare-op", or("=", "!=", "<>", ">", "<", ">=", "<=",)), addMatcher())
-export const expressionMatcher = () => def("exp")(
-    arrayScope("expression")(compareMatcher())
+export const mulMatcher = def(() => doubleOp("mul", cap("mul-op", or("*", "/")), uniMatcher))
+export const addMatcher = def(() => doubleOp("add", cap("add-op", or("+", "-")), mulMatcher))
+export const compareMatcher = def(() => doubleOp("compare", cap("compare-op", or("=", "!=", "<>", ">", "<", ">=", "<=",)), addMatcher))
+export const expression = def(
+    arrayScope("expression")(compareMatcher)
 )
 

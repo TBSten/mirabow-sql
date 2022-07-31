@@ -1,11 +1,11 @@
 
 //type
 
-import { any, cap, li, or, repeat, toMatcher } from "mirabow"
-import { expressionMatcher } from "../expression"
+import { any, cap, def, li, or, repeat } from "mirabow"
+import { expression } from "../expression"
 import { ColumnName, Identifier, TableName } from "./util"
 
-const IntegerType = () => or(
+const IntegerType = def(or(
     "int",
     "integer",
     "tinyint",
@@ -15,38 +15,38 @@ const IntegerType = () => or(
     ["unsigned", "big", "int"],
     "int2",
     "int8"
-)
-const SizeSpecify = () => ["(", any(), ")"]
-const TextType = () => toMatcher(or(
-    ["character", SizeSpecify()],
-    ["varchar", SizeSpecify()],
-    ["varying", "character", SizeSpecify()],
-    ["nchar", SizeSpecify()],
-    ["native", "character", SizeSpecify()],
-    ["nvarchar", SizeSpecify()],
+))
+const SizeSpecify = def("(", any(), ")")
+const TextType = def(or(
+    ["character", SizeSpecify],
+    ["varchar", SizeSpecify],
+    ["varying", "character", SizeSpecify],
+    ["nchar", SizeSpecify],
+    ["native", "character", SizeSpecify],
+    ["nvarchar", SizeSpecify],
     "text",
     "clob",
 ))
-const BlobType = () => toMatcher("blob")
-const RealType = () => toMatcher(or(
+const BlobType = def("blob")
+const RealType = def(or(
     "real",
     "double",
     ["double", "precision"],
     "float",
 ))
-const NumericType = () => toMatcher(or(
+const NumericType = def(or(
     "numeric",
     ["decimal", "(", any(), ",", any(), ")"],
     "boolean",
     "date",
     "datetime",
 ))
-const ColType = () => toMatcher(or(
-    IntegerType(),
-    TextType(),
-    BlobType(),
-    RealType(),
-    NumericType(),
+const ColType = def(or(
+    IntegerType,
+    TextType,
+    BlobType,
+    RealType,
+    NumericType,
 ))
 
 //column definition
@@ -67,26 +67,26 @@ export const columnDefinitionKey = {
 }
 
 const colKeys = columnDefinitionKey
-const ColConstraint = () => toMatcher(or(
+const ColConstraint = def(or(
     cap(colKeys.primaryKey, ["primary", "key"]),
     cap(colKeys.notNull, ["not", "null"]),
     cap(colKeys.unique, ["unique"]),
     ["check",
         "(",
-        cap(colKeys.check, expressionMatcher()),
+        cap(colKeys.check, expression),
         ")"],
     ["default",
-        cap(colKeys.default, expressionMatcher())],
-    ["references", cap(colKeys.references.table, TableName()),
+        cap(colKeys.default, expression)],
+    ["references", cap(colKeys.references.table, TableName),
         "(",
-        li(cap(colKeys.references.column, ColumnName()), ","),
+        li(cap(colKeys.references.column, ColumnName), ","),
         ")",
     ],
 ))
-export const ColumnDefinition = () => toMatcher(
-    cap(colKeys.name, Identifier()),
-    cap(colKeys.type, ColType()),
-    repeat(cap(colKeys.constraint, ColConstraint())),
+export const ColumnDefinition = def(
+    cap(colKeys.name, Identifier),
+    cap(colKeys.type, ColType),
+    repeat(cap(colKeys.constraint, ColConstraint)),
 )
 
 //table definition
@@ -106,20 +106,20 @@ export const tableDefinitionKey = {
     },
 }
 const tblKeys = tableDefinitionKey
-const TableConstraint = () => or(
-    ["primary", "key", "(", li(cap(tblKeys.primaryKey, Identifier()), ","), ")"],
-    ["unique", "(", li(cap(tblKeys.unique, Identifier()), ","), ")"],
-    ["check", "(", cap(tblKeys.check, expressionMatcher()), ")"],
+const TableConstraint = def(or(
+    ["primary", "key", "(", li(cap(tblKeys.primaryKey, Identifier), ","), ")"],
+    ["unique", "(", li(cap(tblKeys.unique, Identifier), ","), ")"],
+    ["check", "(", cap(tblKeys.check, expression), ")"],
     [
         "foreign", "key",
         "(", li(
-            cap(tblKeys.foreignKey.refer.column, ColumnName()),
+            cap(tblKeys.foreignKey.refer.column, ColumnName),
             ","
         ), ")",
         "references",
-        cap(tblKeys.foreignKey.reference.table, TableName()), "(",
-        li(cap(tblKeys.foreignKey.reference.column, ColumnName()), ","),
+        cap(tblKeys.foreignKey.reference.table, TableName), "(",
+        li(cap(tblKeys.foreignKey.reference.column, ColumnName), ","),
         ")",
     ],
-)
-export const TableDefinition = () => toMatcher(TableConstraint());
+))
+export const TableDefinition = def(TableConstraint);
