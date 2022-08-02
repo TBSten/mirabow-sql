@@ -21,7 +21,7 @@ export const statementsKey = {
 }
 const keys = statementsKey
 
-export const statementMatcher = arrayScope(keys.scope)(
+export const statementMatcher = def(arrayScope(keys.scope)(
     capture(keys.statement, or(
         capture(keys.select, selectMatcher),
         capture(keys.insert, insertMatcher),
@@ -31,7 +31,7 @@ export const statementMatcher = arrayScope(keys.scope)(
         capture(keys.alterTable, alterTableMatcher),
         capture(keys.dropTable, dropTableMatcher),
     ))
-)
+))
 
 export const statementsMatcher = def(
     repeat(";"),
