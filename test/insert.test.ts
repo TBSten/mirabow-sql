@@ -1,6 +1,6 @@
-import { getIsKeywords, MatcherExecutor } from "mirabow";
+import { MatcherExecutor } from "mirabow";
 import { insertMatcher } from "../src";
-import { i, lines } from "./util";
+import { lines } from "./util";
 
 
 
@@ -41,7 +41,6 @@ test.each<[string]>([
 ])("correct insert : %p", (sql) => {
     const matcher = insertMatcher
     const executor = new MatcherExecutor(matcher)
-    i("keyword", getIsKeywords())
     const out = executor.execute(sql)
     expect(out.isOk)
         .toBe(true)
