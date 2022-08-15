@@ -1,6 +1,6 @@
-import { any, list } from "mirabow";
+import { identifier, list } from "mirabow";
 
-export const Identifier = any()
-export const TableName = Identifier
-export const ColumnName = list(Identifier, ".")
+export const Identifier = () => identifier()
+export const TableName = () => Identifier()
+export const ColumnName = list(Identifier(), ".")
 

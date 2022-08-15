@@ -1,13 +1,13 @@
-import { any, arrayScope, cap, def, is, li, or, token, ToMatcherArg } from "mirabow";
+import { arrayScope, cap, def, identifier, integerLiteral, li, numberLiteral, or, ToMatcherArg } from "mirabow";
 
-export const stringMatcher = def(is(/^('.*')$/))
-export const integerMatcher = def(is(/^([0-9]+)$/))
-export const numberMatcher = def(is(/^([0-9]+(\.[0-9]+)?)$/))
-export const columnMatcher = def(or([[any(), ".", any()]], any()))
-export const nullMatcher = def(is("null"))
+export const stringMatcher = def(/^('.*')$/)
+export const integerMatcher = def(integerLiteral)
+export const numberMatcher = def(numberLiteral)
+export const columnMatcher = def(or([[identifier(), ".", identifier()]], identifier()))
+export const nullMatcher = def("null")
 
 const uniMatcher = def(() => or(
-    [token(), "(", li(expression, ","), ")"], //function call
+    [identifier(), "(", li(expression, ","), ")"], //function call
     ["(", expression, ")"],
     stringMatcher,
     numberMatcher,

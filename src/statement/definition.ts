@@ -1,7 +1,7 @@
 
 //type
 
-import { any, cap, def, li, or, repeat } from "mirabow"
+import { cap, def, integerLiteral, li, or, repeat } from "mirabow"
 import { expression } from "../expression"
 import { ColumnName, Identifier, TableName } from "./util"
 
@@ -16,7 +16,7 @@ const IntegerType = def(or(
     "int2",
     "int8"
 ))
-const SizeSpecify = def("(", any(), ")")
+const SizeSpecify = def("(", integerLiteral, ")")
 const TextType = def(or(
     ["character", SizeSpecify],
     ["varchar", SizeSpecify],
@@ -36,7 +36,7 @@ const RealType = def(or(
 ))
 const NumericType = def(or(
     "numeric",
-    ["decimal", "(", any(), ",", any(), ")"],
+    ["decimal", "(", integerLiteral, ",", integerLiteral, ")"],
     "boolean",
     "date",
     "datetime",
@@ -77,14 +77,14 @@ const ColConstraint = def(or(
         ")"],
     ["default",
         cap(colKeys.default, expression)],
-    ["references", cap(colKeys.references.table, TableName),
+    ["references", cap(colKeys.references.table, TableName()),
         "(",
         li(cap(colKeys.references.column, ColumnName), ","),
         ")",
     ],
 ))
 export const ColumnDefinition = def(
-    cap(colKeys.name, Identifier),
+    cap(colKeys.name, Identifier()),
     cap(colKeys.type, ColType),
     repeat(cap(colKeys.constraint, ColConstraint)),
 )
@@ -107,8 +107,8 @@ export const tableDefinitionKey = {
 }
 const tblKeys = tableDefinitionKey
 const TableConstraint = def(or(
-    ["primary", "key", "(", li(cap(tblKeys.primaryKey, Identifier), ","), ")"],
-    ["unique", "(", li(cap(tblKeys.unique, Identifier), ","), ")"],
+    ["primary", "key", "(", li(cap(tblKeys.primaryKey, Identifier()), ","), ")"],
+    ["unique", "(", li(cap(tblKeys.unique, Identifier()), ","), ")"],
     ["check", "(", cap(tblKeys.check, expression), ")"],
     [
         "foreign", "key",
@@ -117,7 +117,7 @@ const TableConstraint = def(or(
             ","
         ), ")",
         "references",
-        cap(tblKeys.foreignKey.reference.table, TableName), "(",
+        cap(tblKeys.foreignKey.reference.table, TableName()), "(",
         li(cap(tblKeys.foreignKey.reference.column, ColumnName), ","),
         ")",
     ],
