@@ -10,7 +10,7 @@ export const updateKey = {
 const keys = updateKey
 
 export const updateMatcher = def(
-    "update", cap(keys.update, TableName),
+    "update", cap(keys.update, TableName()),
     "set",
     li(
         cap(keys.set, [ColumnName, "=", expression]),

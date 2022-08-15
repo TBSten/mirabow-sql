@@ -7,5 +7,5 @@ export const dropTableKey = {
 const keys = dropTableKey
 
 export const dropTableMatcher = def(
-    "drop", "table", capture(keys.table, TableName),
+    "drop", "table", capture(keys.table, TableName()),
 )

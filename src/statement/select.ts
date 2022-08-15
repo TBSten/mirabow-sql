@@ -1,4 +1,4 @@
-import { arrayScope, cap, capture, def, li, opt, or, ToMatcherArg } from "mirabow";
+import { arrayScope, cap, capture, def, li, MatcherLike, opt, or } from "mirabow";
 import { expression, integerMatcher, nullMatcher, stringMatcher } from "../expression";
 import { ColumnName, TableName } from "./util";
 
@@ -81,7 +81,7 @@ const whereCondition = def(() => or(
     //expression
     cap(whereKey.compare, expression),
 ))
-const captureListScope = (name: string, joiner: ToMatcherArg) => (...childrenMatcher: ToMatcherArg[]) => {
+const captureListScope = (name: string, joiner: MatcherLike) => (...childrenMatcher: MatcherLike[]) => {
     return li(
         cap(name, arrayScope(name)(
             childrenMatcher
@@ -119,7 +119,7 @@ const keys = selectKey
 export const selectWhere = def(whereMatcher(keys.where))
 export const selectMatcher = def(
     "select", opt(capture(keys.distinct, "distinct")), or(cap(keys.select, "*"), li(cap(keys.select, expression), ",")),
-    "from", li(cap(keys.from, TableName), ","),
+    "from", li(cap(keys.from, TableName()), ","),
     opt(whereMatcher(keys.where)),
     opt("group", "by", li(cap(keys.groupBy, ColumnName), ",")),
     opt("order", "by", li(

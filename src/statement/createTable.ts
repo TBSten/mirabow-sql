@@ -15,7 +15,7 @@ export const createTableKey = {
 const keys = createTableKey
 
 export const createTableMatcher = def(
-    "create", "table", cap(keys.table, TableName), "(",
+    "create", "table", cap(keys.table, TableName()), "(",
     li(or(
         arrayScope(keys.def.column)(
             ColumnDefinition,

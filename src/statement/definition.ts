@@ -6,15 +6,15 @@ import { expression } from "../expression"
 import { ColumnName, Identifier, TableName } from "./util"
 
 const IntegerType = def(or(
-    "int",
     "integer",
     "tinyint",
     "smallint",
     "mediumint",
     "bigint",
     ["unsigned", "big", "int"],
+    "int8",
     "int2",
-    "int8"
+    "int",
 ))
 const SizeSpecify = def("(", integerLiteral, ")")
 const TextType = def(or(

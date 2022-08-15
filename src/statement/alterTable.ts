@@ -21,9 +21,9 @@ export const alterTableKey = {
 const keys = alterTableKey
 
 export const alterTableMatcher = def(
-    "alter", "table", cap(alterTableKey.table, TableName),
+    "alter", "table", cap(alterTableKey.table, TableName()),
     or(
-        ["rename", "to", cap(alterTableKey.rename.table, TableName)],
+        ["rename", "to", cap(alterTableKey.rename.table, TableName())],
         ["rename", opt("column"), cap(keys.rename.column.before, ColumnName),
             "to", cap(keys.rename.column.after, ColumnName)],
         ["add", opt("column"), cap(keys.add.column, ColumnDefinition)],

@@ -8,7 +8,7 @@ export const deleteKey = {
 const keys = deleteKey
 
 export const deleteMatcher = def(
-    "delete", "from", capture(keys.from, TableName),
+    "delete", "from", capture(keys.from, TableName()),
     opt(whereMatcher),
 )
 

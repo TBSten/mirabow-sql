@@ -26,7 +26,7 @@ const valuesMatcher = def([
 ])
 export const insertMatcher = def(
     "insert", "into",
-    cap(keys.table, TableName),
+    cap(keys.table, TableName()),
     opt("(",
         li(cap(keys.column, ColumnName), ","),
         ")",
