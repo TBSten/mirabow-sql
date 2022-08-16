@@ -39,6 +39,7 @@ export const statementsMatcher = def(
         statementMatcher,
         repeat(";"),
     ),
+    repeat(";"),
 )
 
 
