@@ -1,11 +1,11 @@
 import { arrayScope, capture, def, list, or, repeat } from "mirabow";
-import { alterTableMatcher } from "./alterTable";
-import { createTableMatcher } from "./createTable";
-import { deleteMatcher } from "./delete";
-import { dropTableMatcher } from "./dropTable";
-import { insertMatcher } from "./insert";
-import { selectMatcher } from "./select";
-import { updateMatcher } from "./update";
+import { alterTableMatcher } from "../alterTable";
+import { createTableMatcher } from "../createTable";
+import { deleteMatcher } from "../delete";
+import { dropTableMatcher } from "../dropTable";
+import { insertMatcher } from "../insert";
+import { selectMatcher } from "../select";
+import { updateMatcher } from "../update";
 
 const pre = "sql-statement-"
 export const statementsKey = {

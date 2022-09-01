@@ -2,8 +2,8 @@
 //type
 
 import { cap, def, integerLiteral, li, or, repeat } from "mirabow"
-import { expression } from "../expression"
-import { ColumnName, Identifier, TableName } from "./util"
+import { expression } from "../../expression"
+import { ColumnName, Identifier, TableName } from "../../util/matcher"
 
 const IntegerType = def(or(
     "integer",

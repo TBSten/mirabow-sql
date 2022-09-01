@@ -1,6 +1,6 @@
-import { arrayScope, cap, capture, def, li, MatcherLike, opt, or } from "mirabow";
-import { expression, integerMatcher, nullMatcher, stringMatcher } from "../expression";
-import { ColumnName, TableName } from "./util";
+import { arrayScope, cap, def, li, MatcherLike, opt, or } from "mirabow"
+import { selectMatcher } from "../"
+import { expression, nullMatcher, stringMatcher } from "../../expression"
 
 export const whereKey = {
     default: "where-condition",
@@ -100,32 +100,6 @@ const _whereMatcherFactry = (capName: string = whereKey.default) => def(
     )
 )
 export const whereMatcher = Object.assign(
-    (capName: string) => _whereMatcherFactry(capName),
+    _whereMatcherFactry,
     _whereMatcherFactry(),
 )
-
-export const selectKey = {
-    select: "select-select",
-    distinct: "select-distinct",
-    from: "select-from",
-    where: "select-where",
-    groupBy: "select-group-by",
-    orderBy: "select-order-by",
-    limit: "select-limit",
-    offset: "select-offset",
-}
-const keys = selectKey
-
-export const selectWhere = def(whereMatcher(keys.where))
-export const selectMatcher = def(
-    "select", opt(capture(keys.distinct, "distinct")), or(cap(keys.select, "*"), li(cap(keys.select, expression), ",")),
-    "from", li(cap(keys.from, TableName()), ","),
-    opt(whereMatcher(keys.where)),
-    opt("group", "by", li(cap(keys.groupBy, ColumnName), ",")),
-    opt("order", "by", li(
-        cap(keys.orderBy, [ColumnName, opt(or("asc", "desc"))]), ","
-    )),
-    opt("limit", cap(keys.limit, integerMatcher)),
-    opt("offset", cap(keys.offset, integerMatcher)),
-)
-

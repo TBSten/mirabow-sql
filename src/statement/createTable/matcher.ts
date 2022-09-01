@@ -1,6 +1,6 @@
 import { arrayScope, cap, def, li, or } from "mirabow";
-import { ColumnDefinition, TableDefinition } from "./definition";
-import { TableName } from "./util";
+import { TableName } from "../../util/matcher";
+import { ColumnDefinition, TableDefinition } from "../definition";
 
 //create table
 

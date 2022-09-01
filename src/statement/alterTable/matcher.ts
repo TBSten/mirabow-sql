@@ -1,6 +1,6 @@
 import { cap, def, opt, or } from "mirabow";
-import { ColumnDefinition } from "./definition";
-import { ColumnName, TableName } from "./util";
+import { ColumnName, TableName } from "../../util/matcher";
+import { ColumnDefinition } from "../definition";
 
 export const alterTableKey = {
     table: "alter-table-table",

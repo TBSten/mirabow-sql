@@ -1,7 +1,7 @@
 import { arrayScope, cap, def, li, opt, or, scope } from "mirabow";
-import { expression } from "../expression";
-import { selectMatcher } from "./select";
-import { ColumnName, TableName } from "./util";
+import { expression } from "../../expression";
+import { ColumnName, TableName } from "../../util/matcher";
+import { selectMatcher } from "../select";
 
 export const insertKey = {
     table: "insert-tbl",

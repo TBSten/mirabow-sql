@@ -1,5 +1,5 @@
 import { capture, def } from "mirabow";
-import { TableName } from "./util";
+import { TableName } from "../../util/matcher";
 
 export const dropTableKey = {
     table: "drop-table-table",
